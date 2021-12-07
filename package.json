@@ -1,13 +1,14 @@
 {
-  "name": "BasicPayments",
+  "name": "ubademy-service-payments",
   "version": "1.0.0",
   "description": "BasicPayments es un proyecto hecho con fines educativos donde los usuarios pueden crear proyectos que son fundeados por inversores angeles(con inversiones tipo seed o semillas) y cada proyecto tiene asignado un revisor que es el encargado de revisar que el mismo avance. NO USAR EN PRODUCCION!",
   "author": "",
   "license": "ISC",
   "engines": {
-    "node": "14.18.1"
+    "node": "12.18.1"
   },
   "dependencies": {
+    "ethers": "^5.5.2",
     "hardhat": "2.0.6",
     "hardhat-deploy": "0.7.4",
     "hardhat-deploy-ethers": "0.3.0-beta.7",
@@ -36,7 +37,6 @@
     "eslint-config-prettier": "6.12.0",
     "eth-revert-reason": "^1.0.3",
     "ethereum-waffle": "3.2.0",
-    "ethers": "^5.5.2",
     "fastify": "3.14.2",
     "fs-extra": "9.0.1",
     "hardhat-contract-sizer": "2.0.2",
@@ -57,7 +57,7 @@
     "ts-generator": "0.1.1",
     "ts-node": "9.1.1",
     "typechain": "4.0.1",
-    "typescript": "4.1.3"
+    "typescript": "^4.1.3"
   },
   "comments": {
     "dependencies": "hardhat-solhint includes an old version of solhint, that's why specific solhint dependency is added"
