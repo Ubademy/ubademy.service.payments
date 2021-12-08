@@ -41,7 +41,8 @@ let mnemonic: string;
 if (!process.env.MNEMONIC) {
   throw new Error("Please set your MNEMONIC in a .env file");
 } else {
-  mnemonic = process.env.MNEMONIC;
+  mnemonic = process.env.MNEMONIC
+  mnemonic = mnemonic.replace(/_/g, " ")
 }
 
 let infuraApiKey: string;
