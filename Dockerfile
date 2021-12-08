@@ -1,22 +1,19 @@
-FROM node:12.18-alpine
+FROM node:12.18
 COPY package.json /
 
 COPY hardhat.config.ts /
 COPY tsconfig.json /
 
 ENV NODE_ENV production
+ENV PATH node_modules/.bin:$PATH
 
 RUN npm install --save-dev typescript
-RUN npm install -g
-
-ENV PATH node_modules/.bin:$PATH
+RUN npm i
 
 EXPOSE 3000
 
-COPY contracts /contracts
-COPY deploy /deploy
-COPY src /src
+COPY . .
 
-RUN npm run deploy-kovan
+#RUN npm run deploy-kovan
 
 CMD npm run start
