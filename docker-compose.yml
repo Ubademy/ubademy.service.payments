@@ -16,11 +16,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - MNEMONIC=${MNEMONIC}
+        - INFURA_API_KEY=${INFURA_API_KEY}
     environment:
       DATABASE_URL: postgresql://user:password@db:5432/db
-      MNEMONIC: ${MNEMONIC}
-      INFURA_API_KEY: ${INFURA_API_KEY}
     ports:
-      - "8000:8000"
+      - "8000:3000"
     depends_on:
       - db

@@ -1,19 +1,22 @@
 FROM node:12.18
-COPY package.json /
+COPY package*.json /
 
 COPY hardhat.config.ts /
 COPY tsconfig.json /
 
-ENV NODE_ENV production
-ENV PATH node_modules/.bin:$PATH
+ARG MNEMONIC
+ARG INFURA_API_KEY
+ENV MNEMONIC=${MNEMONIC}
+ENV INFURA_API_KEY=${INFURA_API_KEY}
+ENV NODE_ENV development
+ENV PATH=node_modules/.bin:${PATH}
 
-RUN npm install --save-dev typescript
-RUN npm i
+RUN npm i --scripts-prepend-node-path
+RUN npm install --save ts-node
 
 EXPOSE 3000
 
 COPY . .
 
-#RUN npm run deploy-kovan
 
 CMD npm run start
