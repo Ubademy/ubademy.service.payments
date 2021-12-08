@@ -15,8 +15,6 @@ RUN npm i --scripts-prepend-node-path
 RUN npm install --save ts-node
 
 EXPOSE 3000
-
 COPY . .
-
 
 CMD npm run start
