@@ -1,4 +1,6 @@
 const ethers = require('ethers');
+const {WalletDTO} = require("../infrastructure/wallet/walletDTO");
+const {WalletAlreadyExistsError} = require("../exceptions");
 const accounts = [];
 
 const getDeployerWallet = ({ config }) => () => {
@@ -8,20 +10,22 @@ const getDeployerWallet = ({ config }) => () => {
   return wallet;
 };
 
-const createWallet = () => async () => {
+const createWallet = () => async userId => {
+  const count = await WalletDTO.count({
+    where: {userId: userId}
+  })
+  if(count > 0){
+    throw(new WalletAlreadyExistsError())
+  }
+
   const provider = new ethers.providers.InfuraProvider("kovan", process.env.INFURA_API_KEY);
   // This may break in some environments, keep an eye on it
   const wallet = ethers.Wallet.createRandom().connect(provider);
-  accounts.push({
+  return WalletDTO.create({
+    userId: userId,
     address: wallet.address,
     privateKey: wallet.privateKey,
   });
-  const result = {
-    id: accounts.length,
-    address: wallet.address,
-    privateKey: wallet.privateKey,
-  };
-  return result;
 };
 
 const getWalletsData = () => () => {

@@ -1,3 +1,5 @@
+const {WalletAlreadyExistsError} = require("../exceptions");
+
 function schema() {
   return {
     params: {
@@ -14,8 +16,17 @@ function schema() {
 
 function handler({ walletService }) {
   return async function (req, reply) {
-    const body = await walletService.createWallet();
-    return reply.code(200).send(body);
+    console.log(req.query)
+    try{
+      const body = await walletService.createWallet(req.query["userId"]);
+      return reply.code(200).send(body);
+    }catch(e){
+      if(e instanceof WalletAlreadyExistsError){
+        return reply.code(403).send(e.message);
+      }
+      console.log(e.message);
+      return reply.code(500).send("Internal server error");
+    }
   };
 }
 
