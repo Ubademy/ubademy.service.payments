@@ -1,13 +1,18 @@
 const { Sequelize} = require('sequelize');
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
-  dialect: "postgres",
-  dialectOptions: {
+
+let options = {}
+if(process.env.SSL_REQUIRED){
+  options = {dialect: "postgres",
+    dialectOptions: {
     ssl: {
       require: true,
-      rejectUnauthorized: false,
+        rejectUnauthorized: false,
+      },
     },
-  },
-});
+  }
+}
+
+const sequelize = new Sequelize(process.env.DATABASE_URL, options);
 
 try {
   sequelize.authenticate();

@@ -22,10 +22,12 @@ function handler({ walletService }) {
       return reply.code(200).send(body);
     }catch(e){
       if(e instanceof WalletAlreadyExistsError){
-        return reply.code(403).send(e.message);
+        reply.code(403);
+      }else{
+        reply.code(500);
       }
       console.log(e.message);
-      return reply.code(500).send("Internal server error");
+      throw e;
     }
   };
 }

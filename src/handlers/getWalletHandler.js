@@ -1,3 +1,5 @@
+const {WalletAlreadyExistsError, WalletNotFoundError} = require("../exceptions");
+
 function schema() {
   return {
     params: {
@@ -14,8 +16,18 @@ function schema() {
 
 function handler({ walletService }) {
   return async function (req, reply) {
-    const body = await walletService.getWalletData(req.params.id);
-    reply.code(200).send(body);
+    try {
+      const body = await walletService.getWalletData(req.params.userId);
+      reply.code(200).send(body);
+    }catch(e){
+      if(e instanceof WalletNotFoundError){
+        reply.code(404);
+      }else{
+        reply.code(500);
+      }
+      console.log(e.message);
+      throw e;
+    }
   };
 }
 

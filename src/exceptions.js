@@ -5,4 +5,11 @@ class WalletAlreadyExistsError extends Error{
   }
 }
 
-module.exports = {WalletAlreadyExistsError}
+class WalletNotFoundError extends Error{
+  constructor() {
+    super();
+    this.message = "The user you specified does not have a wallet."
+  }
+}
+
+module.exports = {WalletAlreadyExistsError, WalletNotFoundError}
