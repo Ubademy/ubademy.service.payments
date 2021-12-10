@@ -17,7 +17,9 @@ function schema() {
 
 function handler({ contractInteraction, walletService }) {
   return async function (req) {
-    return contractInteraction.deposit(walletService.getWallet(req.body.senderId), req.body.amountInEthers);
+    const walletdto = await walletService.getWalletData(req.body.senderId)
+    const w = await walletService.getWallet(walletdto.privateKey)
+    return contractInteraction.deposit(w, req.body.amountInEthers);
   };
 }
 
