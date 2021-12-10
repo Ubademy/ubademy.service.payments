@@ -22,7 +22,7 @@ function handler({ walletService }) {
       return reply.code(200).send(body);
     }catch(e){
       if(e instanceof WalletAlreadyExistsError){
-        reply.code(403);
+        reply.code(409);
       }else{
         reply.code(500);
       }

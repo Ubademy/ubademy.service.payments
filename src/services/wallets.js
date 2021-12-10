@@ -35,17 +35,13 @@ const getWalletData = () => async userId => {
   if(w === null){
     throw(new WalletNotFoundError());
   }
-  /*
-  console.log(w)
-  console.log(w.address)
+
   const provider = new ethers.providers.InfuraProvider("kovan", process.env.INFURA_API_KEY);
   const balance = await provider.getBalance(w.address);
-  console.log(balance)
-  */
-  return w;
+  return {...w["dataValues"], balance: ethers.utils.formatEther(balance)};
 };
 
-const getWallet = ({}) => privateKey => {
+const getWallet = ({}) => async privateKey => {
   const provider = new ethers.providers.InfuraProvider("kovan", process.env.INFURA_API_KEY);
 
   return new ethers.Wallet(privateKey, provider);
