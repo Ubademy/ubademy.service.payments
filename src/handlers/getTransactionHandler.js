@@ -14,10 +14,10 @@ function schema() {
   };
 }
 
-function handler({ contractInteraction }) {
+function handler({ transactionService }) {
   return async function (req, reply) {
     try{
-      const body = await contractInteraction.getTransactionReceipt(req.params.txHash);
+      const body = await transactionService.getTransactionReceipt(req.params.txHash);
       reply.code(200).send(body);
     }catch(e){
       if(e instanceof TransactionNotFoundError){
