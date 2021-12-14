@@ -1,27 +1,33 @@
 const ethers = require("ethers");
-const getDepositHandler = require("../handlers/getDepositHandler");
+const {TransactionDTO} = require("../infrastructure/transaction/transactionDTO");
+const {TransactionNotFoundError} = require("../exceptions");
 
 const getContract = (config, wallet) => {
   return new ethers.Contract(config.contractAddress, config.contractAbi, wallet);
 };
 
-const deposits = {};
-
-const deposit = ({ config }) => async (senderWallet, amountToSend) => {
+const deposit = ({ config }) => async (senderWallet, amountToSend, senderId) => {
   const basicPayments = await getContract(config, senderWallet);
+  const value = await ethers.utils.parseEther(amountToSend).toHexString();
   const tx = await basicPayments.deposit({
-    value: await ethers.utils.parseEther(amountToSend).toHexString(),
+    value: value,
   });
   tx.wait(1).then(
-    receipt => {
+    async receipt => {
       console.log("Transaction mined");
       const firstEvent = receipt && receipt.events && receipt.events[0];
       console.log(firstEvent);
       if (firstEvent && firstEvent.event == "DepositMade") {
-        deposits[tx.hash] = {
-          senderAddress: firstEvent.args.sender,
-          amountSent: firstEvent.args.amount,
-        };
+
+        await TransactionDTO.create(
+          {
+            hash: tx.hash,
+            senderId: senderId,
+            senderAddress: firstEvent.args.sender,
+            receiverId: "-",
+            receiverAddress: config.contractAddress,
+            amountInEthers: ethers.utils.formatEther(firstEvent.args.amount),
+          });
       } else {
         console.error(`Payment not created in tx ${tx.hash}`);
       }
@@ -39,11 +45,15 @@ const deposit = ({ config }) => async (senderWallet, amountToSend) => {
   return tx;
 };
 
-const getDepositReceipt = ({}) => async depositTxHash => {
-  return deposits[depositTxHash];
+const getTransactionReceipt = ({}) => async depositTxHash => {
+  const t = await TransactionDTO.findOne({where: {hash: depositTxHash}});
+  if(t === null){
+    throw(new TransactionNotFoundError());
+  }
+  return t;
 };
 
 module.exports = dependencies => ({
   deposit: deposit(dependencies),
-  getDepositReceipt: getDepositReceipt(dependencies),
+  getTransactionReceipt: getTransactionReceipt(dependencies),
 });

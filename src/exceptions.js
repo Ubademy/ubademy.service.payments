@@ -12,4 +12,11 @@ class WalletNotFoundError extends Error{
   }
 }
 
-module.exports = {WalletAlreadyExistsError, WalletNotFoundError}
+class TransactionNotFoundError extends Error{
+  constructor() {
+    super();
+    this.message = "The hash you specified does not have a transaction associated."
+  }
+}
+
+module.exports = {WalletAlreadyExistsError, WalletNotFoundError, TransactionNotFoundError}

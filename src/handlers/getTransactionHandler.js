@@ -1,26 +1,26 @@
-const {WalletNotFoundError} = require("../exceptions");
+const {TransactionNotFoundError} = require("../exceptions");
 
 function schema() {
   return {
     params: {
       type: "object",
       properties: {
-        id: {
-          type: "integer",
+        txHash: {
+          type: "string",
         },
       },
     },
-    required: ["id"],
+    required: ["txHash"],
   };
 }
 
-function handler({ walletService }) {
+function handler({ contractInteraction }) {
   return async function (req, reply) {
-    try {
-      const body = await walletService.getWalletData(req.params.userId);
+    try{
+      const body = await contractInteraction.getTransactionReceipt(req.params.txHash);
       reply.code(200).send(body);
     }catch(e){
-      if(e instanceof WalletNotFoundError){
+      if(e instanceof TransactionNotFoundError){
         reply.code(404);
       }else{
         reply.code(500);
