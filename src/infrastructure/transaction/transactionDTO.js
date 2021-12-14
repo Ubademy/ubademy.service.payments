@@ -13,7 +13,7 @@ TransactionDTO.init({
   receiverId: DataTypes.STRING,
   receiverAddress: DataTypes.STRING,
   amountInEthers: DataTypes.STRING,
-}, {sequelize, modelName: 'Deposit' , tableName: 'Deposits'});
+}, {sequelize, modelName: 'Deposit' , tableName: 'Deposits', timestamps: true,  updatedAt: false});
 
 TransactionDTO.sync({ alter: true });
 
