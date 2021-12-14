@@ -1,11 +1,10 @@
 const ethers = require('ethers');
 const {WalletDTO} = require("../infrastructure/wallet/walletDTO");
 const {WalletAlreadyExistsError, WalletNotFoundError} = require("../exceptions");
-const accounts = [];
 
 const getDeployerWallet = ({ config }) => () => {
   const provider = new ethers.providers.InfuraProvider(config.network, config.infuraApiKey);
-  const wallet = ethers.Wallet.fromMnemonic(config.deployerMnemonic).connect(provider);
+  const wallet = ethers.Wallet.fromMnemonic(config.deployerMnemonic.replace(/_/g, " ")).connect(provider);
   console.log("Deployer wallet" + wallet.address);
   return wallet;
 };
@@ -24,10 +23,6 @@ const createWallet = () => async userId => {
     address: wallet.address,
     privateKey: wallet.privateKey,
   });
-};
-
-const getWalletsData = () => () => {
-  return accounts;
 };
 
 const getWalletData = () => async userId => {
@@ -50,7 +45,6 @@ const getWallet = ({}) => async privateKey => {
 module.exports = ({ config }) => ({
   createWallet: createWallet({ config }),
   getDeployerWallet: getDeployerWallet({ config }),
-  getWalletsData: getWalletsData({ config }),
   getWalletData: getWalletData({ config }),
   getWallet: getWallet({ config }),
 });

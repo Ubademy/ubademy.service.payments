@@ -1,8 +1,9 @@
 const getWalletData = require("./handlers/getWalletHandler");
-const getWalletsData = require("./handlers/getWalletsHandler");
 const createWallet = require("./handlers/createWalletHandler");
 const createDeposit = require("./handlers/createDepositHandler");
-const getDeposit = require("./handlers/getDepositHandler");
+const createPayment = require("./handlers/createPaymentHandler");
+const getTransaction = require("./handlers/getTransactionHandler");
+const getTransactions = require("./handlers/getTransactionsHandler")
 
 function getWalletDataRoute({ services, config }) {
   return {
@@ -10,15 +11,6 @@ function getWalletDataRoute({ services, config }) {
     url: "/payments/wallet/:userId",
     schema: getWalletData.schema(config),
     handler: getWalletData.handler({ config, ...services }),
-  };
-}
-
-function getWalletsDataRoute({ services, config }) {
-  return {
-    method: "GET",
-    url: "/payments/wallet",
-    schema: getWalletsData.schema(config),
-    handler: getWalletsData.handler({ config, ...services }),
   };
 }
 
@@ -40,13 +32,31 @@ function createDepositRoute({ services, config }) {
   };
 }
 
-function getDepositRoute({ services, config }) {
+function createPaymentRoute({ services, config }) {
   return {
-    method: "GET",
-    url: "/payments/deposit/:txHash",
-    schema: getDeposit.schema(config),
-    handler: getDeposit.handler({ config, ...services }),
+    method: "POST",
+    url: "/payments/pay",
+    schema: createPayment.schema(config),
+    handler: createPayment.handler({ config, ...services }),
   };
 }
 
-module.exports = [getWalletDataRoute, getWalletsDataRoute, createWalletRoute, createDepositRoute, getDepositRoute];
+function getTransactionRoute({ services, config }) {
+  return {
+    method: "GET",
+    url: "/payments/transaction/:txHash",
+    schema: getTransaction.schema(config),
+    handler: getTransaction.handler({ config, ...services }),
+  };
+}
+
+function getTransactionsRoute({ services, config }) {
+  return {
+    method: "GET",
+    url: "/payments/transaction",
+    schema: getTransactions.schema(config),
+    handler: getTransactions.handler({ config, ...services }),
+  };
+}
+
+module.exports = [getWalletDataRoute, createWalletRoute, createDepositRoute, createPaymentRoute, getTransactionRoute, getTransactionsRoute];
