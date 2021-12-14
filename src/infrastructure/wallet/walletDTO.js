@@ -10,7 +10,7 @@ WalletDTO.init({
   },
   address: DataTypes.STRING,
   privateKey: DataTypes.STRING,
-}, {sequelize, modelName: 'Wallet' , tableName: 'Wallets'});
+}, {sequelize, modelName: 'Wallet' , tableName: 'Wallets', timestamps: true,  updatedAt: false});
 
 WalletDTO.sync({ alter: true });
 

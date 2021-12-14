@@ -2,8 +2,15 @@ const {TransactionDTO} = require("../infrastructure/transaction/transactionDTO")
 const {TransactionNotFoundError} = require("../exceptions");
 
 
-const getTransactions = () => async () => {
-  return await TransactionDTO.findAll();
+const getTransactions = () => async ({limit, offset}) => {
+  return {
+    transactions: await TransactionDTO.findAll({
+      order: [['createdAt', 'DESC']],
+      limit: limit,
+      offset: offset,
+    }),
+    count: await TransactionDTO.count(),
+  };
 }
 
 const getTransactionReceipt = ({}) => async depositTxHash => {
