@@ -8,9 +8,8 @@ TransactionDTO.init({
     type: DataTypes.STRING,
     primaryKey: true,
   },
-  senderId: DataTypes.STRING,
+  userId: DataTypes.STRING,
   senderAddress: DataTypes.STRING,
-  receiverId: DataTypes.STRING,
   receiverAddress: DataTypes.STRING,
   amountInEthers: DataTypes.STRING,
 }, {sequelize, modelName: 'Deposit' , tableName: 'Deposits', timestamps: true,  updatedAt: false});

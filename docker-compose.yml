@@ -21,6 +21,7 @@ services:
         - INFURA_API_KEY=${INFURA_API_KEY}
     environment:
       DATABASE_URL: postgresql://user:password@db:5432/db
+      COMMISSION: ${COMMISSION}
     ports:
       - "8000:3000"
     depends_on:
