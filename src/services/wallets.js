@@ -37,14 +37,24 @@ const getWalletData = () => async userId => {
 };
 
 const getWallet = ({}) => async privateKey => {
+  console.log("Entre");
   const provider = new ethers.providers.InfuraProvider("kovan", process.env.INFURA_API_KEY);
 
   return new ethers.Wallet(privateKey, provider);
 };
+
+const getWalletFromId = ({}) => async userId => {
+  if(userId === undefined){
+    return null;
+  }
+  const walletdto = await getWalletData()(userId);
+  return await getWallet({})(walletdto.privateKey);
+}
 
 module.exports = ({ config }) => ({
   createWallet: createWallet({ config }),
   getDeployerWallet: getDeployerWallet({ config }),
   getWalletData: getWalletData({ config }),
   getWallet: getWallet({ config }),
+  getWalletFromId: getWalletFromId({config}),
 });

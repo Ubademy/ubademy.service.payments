@@ -20,7 +20,7 @@ function handler({ contractInteraction , walletService}) {
     const walletdto = await walletService.getWalletData(req.body.receiverId);
     const w = await walletService.getWallet(walletdto.privateKey);
     const ubademyWallet = await walletService.getDeployerWallet();
-    return contractInteraction.pay(w, ubademyWallet, req.body.amountInEthers, req.body.receiverId);
+    return contractInteraction.pay(w, ubademyWallet, req.body.amountInEthers);
   };
 }
 
