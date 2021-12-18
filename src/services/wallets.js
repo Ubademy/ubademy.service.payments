@@ -9,6 +9,13 @@ const getDeployerWallet = ({ config }) => () => {
   return wallet;
 };
 
+const getDeployerWalletData = ({config}) => async () => {
+  const w = getDeployerWallet({config})()
+  const provider = new ethers.providers.InfuraProvider("kovan", process.env.INFURA_API_KEY);
+  const balance = await provider.getBalance(w.address);
+  return {address: w.address, balance: ethers.utils.formatEther(balance)};
+}
+
 const createWallet = () => async userId => {
   const existingWallet = await WalletDTO.findOne({where: {userId: userId}})
   if(existingWallet !== null){
@@ -57,4 +64,5 @@ module.exports = ({ config }) => ({
   getWalletData: getWalletData({ config }),
   getWallet: getWallet({ config }),
   getWalletFromId: getWalletFromId({config}),
+  getDeployerWalletData: getDeployerWalletData({config}),
 });
