@@ -66,6 +66,8 @@ const pay = ({ config }) => async (receiverWallet, ubademyWallet, amountToSend) 
     throw TransactionNotCreated;
   }
 
+  tx.from = config.contractAddress;
+  tx.to = receiverWallet.address;
   return {...tx, amount: amountToSend};
 };
 

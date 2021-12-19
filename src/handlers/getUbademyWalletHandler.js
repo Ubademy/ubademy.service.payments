@@ -15,7 +15,7 @@ function schema() {
 function handler({ walletService }) {
   return async function (req, reply) {
     try {
-      const body = await walletService.getDeployerWalletData();
+      const body = await walletService.getUbademyWalletData();
       reply.code(200).send(body);
     }catch(e){
       reply.code(500);
