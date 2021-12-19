@@ -1,5 +1,5 @@
 const getWalletData = require("./handlers/getWalletHandler");
-const getDeployerWalletData = require("./handlers/getDeployerWalletHandler")
+const getUbademyWalletData = require("./handlers/getUbademyWalletHandler")
 const createWallet = require("./handlers/createWalletHandler");
 const createDeposit = require("./handlers/createDepositHandler");
 const createPayment = require("./handlers/createPaymentHandler");
@@ -15,12 +15,12 @@ function getWalletDataRoute({ services, config }) {
   };
 }
 
-function getDeployerWalletDataRoute({ services, config }) {
+function getUbademyWalletDataRoute({services, config}) {
   return {
     method: "GET",
     url: "/payments/wallet",
-    schema: getDeployerWalletData.schema(config),
-    handler: getDeployerWalletData.handler({ config, ...services }),
+    schema: getUbademyWalletData.schema(config),
+    handler: getUbademyWalletData.handler({ config, ...services }),
   };
 }
 
@@ -69,4 +69,4 @@ function getTransactionsRoute({ services, config }) {
   };
 }
 
-module.exports = [getWalletDataRoute, createWalletRoute, createDepositRoute, createPaymentRoute, getTransactionRoute, getTransactionsRoute, getDeployerWalletDataRoute];
+module.exports = [getWalletDataRoute, createWalletRoute, createDepositRoute, createPaymentRoute, getTransactionRoute, getTransactionsRoute, getUbademyWalletDataRoute];

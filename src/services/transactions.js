@@ -1,6 +1,5 @@
 const {TransactionDTO} = require("../infrastructure/transaction/transactionDTO");
 const {TransactionNotFoundError} = require("../exceptions");
-const ethers = require("ethers");
 
 
 const getTransactions = () => async ({limit, offset}) => {

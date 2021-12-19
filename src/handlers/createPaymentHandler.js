@@ -15,12 +15,12 @@ function schema() {
   };
 }
 
-function handler({ contractInteraction , walletService}) {
+function handler({ contractInteraction , walletService, transactionService}) {
   return async function (req) {
-    const walletdto = await walletService.getWalletData(req.body.receiverId);
-    const w = await walletService.getWallet(walletdto.privateKey);
+    const w = await walletService.getWalletFromId(req.body.receiverId);
     const ubademyWallet = await walletService.getDeployerWallet();
-    return contractInteraction.pay(w, ubademyWallet, req.body.amountInEthers);
+    const tx = await contractInteraction.pay(w, ubademyWallet, req.body.amountInEthers);
+    return await transactionService.addTransactionFromTx(tx, req.body.receiverId);
   };
 }
 
