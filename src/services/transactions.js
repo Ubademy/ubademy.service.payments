@@ -6,7 +6,7 @@ const getTransactions = () => async ({limit, offset}) => {
   return {
     transactions: await TransactionDTO.findAll({
       order: [['createdAt', 'DESC']],
-      limit: limit ? limit:25,
+      limit: limit ? limit:null,
       offset: offset ? offset*(limit ? limit:25):0,
     }),
     count: await TransactionDTO.count(),
