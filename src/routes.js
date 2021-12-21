@@ -55,7 +55,7 @@ function createPaymentRoute({ services, config }) {
 function getTransactionRoute({ services, config }) {
   return {
     method: "GET",
-    url: "/payments/transactions/:txHash",
+    url: "/payments/transactions/:hash",
     schema: getTransaction.schema(config),
     handler: getTransaction.handler({ config, ...services }),
   };

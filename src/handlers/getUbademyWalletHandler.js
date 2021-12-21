@@ -1,14 +1,16 @@
 function schema() {
   return {
-    params: {
-      type: "object",
-      properties: {
-        id: {
-          type: "integer",
+    tags: ['wallets'],
+    summary: "Get contract's wallet",
+    response: {
+      200: {
+        type: 'object',
+        properties: {
+          address: {type: "string"},
+          balance: {type: "string"},
         },
       },
     },
-    required: ["id"],
   };
 }
 
@@ -20,7 +22,7 @@ function handler({ walletService }) {
     }catch(e){
       reply.code(500);
       console.log(e.message);
-      throw e;
+      return reply.send(e.message);
     }
   };
 }

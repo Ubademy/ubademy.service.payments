@@ -1,6 +1,15 @@
+const {MetricsReadModel} = require("../models/metrics");
+
 function schema() {
   return {
-    params: {},
+    tags: ['metrics'],
+    summary: "Get metrics",
+    query: {
+      year: {type: "number"},
+    },
+    response: {
+      200: MetricsReadModel,
+    },
   };
 }
 

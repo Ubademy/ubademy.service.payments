@@ -1,23 +1,30 @@
 const {TransactionNotFoundError} = require("../exceptions");
+const {TransactionReadModel} = require("../models/transaction");
 
 function schema() {
   return {
+    tags: ['transactions'],
+    summary: "Get transaction",
     params: {
-      type: "object",
-      properties: {
-        txHash: {
-          type: "string",
-        },
+      hash: { type: "string", },
+    },
+    required: ["hash"],
+    responses: {
+      200: {
+        type: TransactionReadModel,
+      },
+      404: {
+        type: 'null',
+        description: TransactionNotFoundError.message
       },
     },
-    required: ["txHash"],
   };
 }
 
 function handler({ transactionService }) {
   return async function (req, reply) {
     try{
-      const body = await transactionService.getTransactionReceipt(req.params.txHash);
+      const body = await transactionService.getTransactionReceipt(req.params.hash);
       reply.code(200).send(body);
     }catch(e){
       if(e instanceof TransactionNotFoundError){
@@ -26,7 +33,7 @@ function handler({ transactionService }) {
         reply.code(500);
       }
       console.log(e.message);
-      throw e;
+      return reply.send(e.message);
     }
   };
 }

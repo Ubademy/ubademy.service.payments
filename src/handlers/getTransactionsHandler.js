@@ -1,6 +1,16 @@
+const {PaginatedTransactionsReadModel} = require("../models/transaction");
+
 function schema() {
   return {
-    params: {},
+    tags: ['transactions'],
+    summary: "Get transactions",
+    query: {
+      limit: { type: "string", },
+      offset: { type: "string", },
+    },
+    responses: {
+      200: PaginatedTransactionsReadModel,
+    },
   };
 }
 
