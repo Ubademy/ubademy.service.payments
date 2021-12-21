@@ -1,5 +1,4 @@
 const ethers = require("ethers");
-const {TransactionDTO} = require("../infrastructure/transaction/transactionDTO");
 const {TransactionNotCreated} = require("../exceptions");
 
 const getContract = (config, wallet) => {
