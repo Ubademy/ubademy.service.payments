@@ -16,8 +16,8 @@ fastify.register(require('fastify-swagger'), {
       url: 'https://ubademy.github.io/',
       description: 'Find more info here'
     },
-    host: process.env.PORT? "localhost":"127.0.0.1:8000",
-    schemes: [process.env.PORT?'https':'http'],
+    host: process.env.PAYMENTS || "127.0.0.1:8000",
+    schemes: [process.env.PAYMENTS?'https':'http'],
     consumes: ['application/json'],
     produces: ['application/json'],
     tags: [
