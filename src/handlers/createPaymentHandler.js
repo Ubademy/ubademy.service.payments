@@ -1,33 +1,50 @@
+const {PaymentCreateModel, TransactionReadModel} = require("../models/transaction");
+const {WalletNotFoundError} = require("../exceptions");
+
 function schema() {
   return {
-    params: {
-      type: "object",
-      properties: {
-        senderId: {
-          type: "integer",
-        },
-        amountInEthers: {
-          type: "string",
-        },
+    tags: ['transactions'],
+    summary: "Create payment",
+    body: {
+      type: "array",
+      items: PaymentCreateModel,
+    },
+    responses: {
+      200: {
+        type: "array",
+        items: TransactionReadModel,
+      },
+      404: {
+        type: 'null',
+        description: WalletNotFoundError.message
       },
     },
-    required: ["senderId", "amountInEthers"],
   };
 }
 
 function handler({ contractInteraction , walletService, transactionService}) {
-  return async function (req) {
-    let w;
-    let tx;
-    let transactions = [];
-    const ubademyWallet = await walletService.getDeployerWallet();
-    for(let key in req.body.payments){
-      console.log(key + ": " + req.body.payments[key]);
-      w = await walletService.getWalletFromId(key);
-      tx= await contractInteraction.pay(w, ubademyWallet, req.body.payments[key]);
-      transactions.push(await transactionService.addTransactionFromTx(tx, req.body.receiverId));
+  return async function (req, reply) {
+    try{
+      let w;
+      let tx;
+      let transactions = [];
+      const ubademyWallet = await walletService.getDeployerWallet();
+      for (const i of req.body) {
+        console.log(i);
+        w = await walletService.getWalletFromId(i["receiverId"]);
+        tx = await contractInteraction.pay(w, ubademyWallet, i["amountInEthers"]);
+        transactions.push(await transactionService.addTransactionFromTx(tx, i["receiverId"]));
+      }
+      return reply.code(200).send(transactions);
+    }catch(e){
+      if(e instanceof WalletNotFoundError){
+        reply.code(404);
+      }else{
+        reply.code(500);
+      }
+      console.log(e.message);
+      return reply.send(e.message);
     }
-    return transactions;
   };
 }
 

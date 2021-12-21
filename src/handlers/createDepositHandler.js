@@ -1,22 +1,18 @@
 const {WalletNotFoundError} = require("../exceptions");
+const {DepPayTransactionReadModel, DepositCreateModel} = require("../models/transaction");
 
 function schema() {
   return {
-    params: {
-      type: "object",
-      properties: {
-        senderId: {
-          type: "string",
-        },
-        receiverId: {
-          type: "string",
-        },
-        amountInEthers: {
-          type: "string",
-        },
+    tags: ['transactions'],
+    summary: "Create deposit",
+    body: DepositCreateModel,
+    responses: {
+      200: DepPayTransactionReadModel,
+      404: {
+        type: 'null',
+        description: WalletNotFoundError.message
       },
     },
-    required: ["senderId", "amountInEthers"],
   };
 }
 
@@ -50,7 +46,7 @@ function handler({ contractInteraction, walletService , transactionService}) {
         reply.code(500);
       }
       console.log(e.message);
-      throw e;
+      return reply.send(e.message);
     }
   };
 }

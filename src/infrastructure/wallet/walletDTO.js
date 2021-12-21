@@ -1,7 +1,6 @@
 const {Model, DataTypes} = require("sequelize");
 const {sequelize} = require("../database");
 
-
 class WalletDTO extends Model {}
 WalletDTO.init({
   userId: {

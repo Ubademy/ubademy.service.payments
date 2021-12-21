@@ -1,16 +1,22 @@
 const {WalletNotFoundError} = require("../exceptions");
+const {WalletReadModel} = require("../models/wallet");
+
 
 function schema() {
   return {
+    tags: ['wallets'],
+    summary: "Get wallet",
     params: {
-      type: "object",
-      properties: {
-        id: {
-          type: "integer",
-        },
+      userId: { type: "string"},
+    },
+    response: {
+      200: WalletReadModel,
+      404: {
+        type: 'null',
+        description: WalletNotFoundError.message
       },
     },
-    required: ["id"],
+    required: ["userId"],
   };
 }
 
@@ -26,7 +32,7 @@ function handler({ walletService }) {
         reply.code(500);
       }
       console.log(e.message);
-      throw e;
+      return reply.send(e.message);
     }
   };
 }

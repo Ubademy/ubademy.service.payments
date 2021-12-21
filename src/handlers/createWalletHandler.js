@@ -1,16 +1,22 @@
 const {WalletAlreadyExistsError} = require("../exceptions");
+const {WalletReadModel} = require("../models/wallet");
+
 
 function schema() {
   return {
-    params: {
-      type: "object",
-      properties: {
-        id: {
-          type: "integer",
-        },
+    tags: ['wallets'],
+    summary: "Create wallet",
+    query: {
+      userId: { type: "string"},
+    },
+    response: {
+      200: WalletReadModel,
+      409: {
+        type: 'null',
+        description: WalletAlreadyExistsError.message
       },
     },
-    required: ["id"],
+    required: ["userId"],
   };
 }
 
@@ -27,7 +33,7 @@ function handler({ walletService }) {
         reply.code(500);
       }
       console.log(e.message);
-      throw e;
+      return reply.send(e.message);
     }
   };
 }
