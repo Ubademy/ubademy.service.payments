@@ -1,5 +1,6 @@
 const {PaymentCreateModel, TransactionReadModel} = require("../models/transaction");
 const {WalletNotFoundError} = require("../exceptions");
+const {axios} = require("axios");
 
 function schema() {
   return {
@@ -25,17 +26,21 @@ function schema() {
 function handler({ contractInteraction , walletService, transactionService}) {
   return async function (req, reply) {
     try{
-      let w;
-      let tx;
-      let transactions = [];
+      const transactions = [];
       const ubademyWallet = await walletService.getDeployerWallet();
       console.log(req.body);
-      for (const i of req.body) {
+      for await (const i of req.body) {
         console.log(i);
-        w = await walletService.getWalletFromId(i["receiverId"]);
-        tx = await contractInteraction.pay(w, ubademyWallet, i["amountInEthers"]);
-        transactions.push(await transactionService.addTransactionFromTx(tx, i["receiverId"]));
+        transactions.push(
+          await transactionService.addTransactionFromTx(
+            await contractInteraction.pay(
+              await walletService.getWalletFromId(i["receiverId"]
+              ), ubademyWallet, i["amountInEthers"]
+            ), i["receiverId"]
+          )
+        );
       }
+
       return reply.code(200).send(transactions);
     }catch(e){
       if(e instanceof WalletNotFoundError){
@@ -43,6 +48,7 @@ function handler({ contractInteraction , walletService, transactionService}) {
       }else{
         reply.code(500);
       }
+
       console.log(e.message);
       return reply.send(e.message);
     }

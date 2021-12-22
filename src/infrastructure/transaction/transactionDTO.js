@@ -4,10 +4,11 @@ const {sequelize} = require("../database");
 
 class TransactionDTO extends Model {}
 TransactionDTO.init({
-  hash: {
+  id: {
     type: DataTypes.STRING,
     primaryKey: true,
   },
+  hash: DataTypes.STRING,
   userId: DataTypes.STRING,
   senderAddress: DataTypes.STRING,
   receiverAddress: DataTypes.STRING,

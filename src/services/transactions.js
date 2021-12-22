@@ -1,5 +1,6 @@
 const {TransactionDTO} = require("../infrastructure/transaction/transactionDTO");
 const {TransactionNotFoundError} = require("../exceptions");
+const uuid = require("uuid");
 
 
 const getTransactions = () => async ({limit, offset}) => {
@@ -23,6 +24,7 @@ const getTransactionReceipt = () => async depositTxHash => {
 
 const addTransactionFromTx = () => async (tx, id) =>{
   return await TransactionDTO.create({
+      id: uuid(),
       hash: tx.hash,
       userId: id,
       senderAddress: tx.from,

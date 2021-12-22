@@ -46,7 +46,7 @@ const pay = ({ config }) => async (receiverWallet, ubademyWallet, amountToSend) 
   const value = (await ethers.utils.parseEther(amountToSend)).toHexString();
   const tx = await basicPayments.sendPayment(receiverWallet.address, value);
   let amount = -1;
-  tx.wait(1).then(
+  await tx.wait(1).then(
     async receipt => {
       console.log("Transaction mined");
       const firstEvent = receipt && receipt.events && receipt.events[0];
