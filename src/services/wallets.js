@@ -32,7 +32,7 @@ const createWallet = () => async userId => {
 };
 
 const getWalletData = () => async userId => {
-  console.log(sum(1,3));
+
   const w = await WalletDTO.findOne({where: {userId: userId}});
   if(w === null){
     throw(new WalletNotFoundError());
