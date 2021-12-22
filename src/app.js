@@ -35,6 +35,6 @@ fastify.register(require('fastify-swagger'), {
   exposeRoute: true
 })
 
-routes.forEach(route => fastify.route(route({ config, services })));
+routes.forEach(route => fastify.route(route({ services, config })));
 
 module.exports = fastify

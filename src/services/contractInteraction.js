@@ -50,7 +50,7 @@ const pay = ({ config }) => async (receiverWallet, ubademyWallet, amountToSend) 
     async receipt => {
       console.log("Transaction mined");
       const firstEvent = receipt && receipt.events && receipt.events[0];
-      console.log(firstEvent);
+      console.log(receiverWallet.address);
       if (firstEvent && firstEvent.event == "PaymentMade") {
         console.log("Payment created");
         amount = ethers.utils.formatEther(firstEvent.args.amount);

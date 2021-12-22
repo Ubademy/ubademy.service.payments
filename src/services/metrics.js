@@ -1,4 +1,3 @@
-const {type} = require("os");
 
 const buildMetrics = ({config}) => async ({transactions, year}) => {
   let depositEthFlow = Array(12).fill(0);

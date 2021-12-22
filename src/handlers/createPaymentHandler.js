@@ -29,6 +29,7 @@ function handler({ contractInteraction , walletService, transactionService}) {
       let tx;
       let transactions = [];
       const ubademyWallet = await walletService.getDeployerWallet();
+      console.log(req.body);
       for (const i of req.body) {
         console.log(i);
         w = await walletService.getWalletFromId(i["receiverId"]);

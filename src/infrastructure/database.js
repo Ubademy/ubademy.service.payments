@@ -1,4 +1,4 @@
-const { Sequelize} = require('sequelize');
+const { Sequelize } = require('sequelize');
 
 let options = {}
 if(process.env.SSL_REQUIRED){
@@ -12,12 +12,15 @@ if(process.env.SSL_REQUIRED){
   }
 }
 
-const sequelize = new Sequelize(process.env.DATABASE_URL, options);
+
+let sequelize;
 
 try {
+  sequelize = new Sequelize(process.env.DATABASE_URL, options);
   sequelize.authenticate();
   console.log('Connection has been established successfully.');
 } catch (error) {
+  sequelize = null;
   console.error('Unable to connect to the database:', error);
 }
 
