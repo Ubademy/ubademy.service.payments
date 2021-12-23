@@ -11,8 +11,9 @@ This service manages:
 
 For further information visit [Ubademy Payments](https://ubademy.github.io/services/payments)
 
-Deployed at: [ubademy-service-payments](https://ubademy-service-payments.herokuapp.com/docs#) :rocket:
+Check out the SmartContract in [Etherscan](https://kovan.etherscan.io/address/0x3697f42cfe5058d34b64be7e0f69914f8affa5d9)!
 
+API deployed at: [ubademy-service-payments](https://ubademy-service-payments.herokuapp.com/docs#) :rocket:
 
 
 ### Technologies
