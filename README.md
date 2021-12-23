@@ -5,8 +5,8 @@ Payments microservice for [Ubademy](https://ubademy.github.io/)
 
 This service manages:
 * SmartContract deployment in kovan network
-* Transactions from the smart contract
-* Managing user wallets
+* User Wallets
+* Transactions from the SmartContract
 
 
 For further information visit [Ubademy Payments](https://ubademy.github.io/services/payments)
@@ -18,7 +18,7 @@ Deployed at: [ubademy-service-payments](https://ubademy-service-payments.herokua
 ### Technologies
 
 * [Fastify](https://www.fastify.io/)
-* [SQLAlchemy](https://sequelize.org/): PostgreSQL Database
+* [Sequelize](https://sequelize.org/): PostgreSQL Database
 * [npm](https://www.npmjs.com/)
 * [ethers.js](https://docs.ethers.io/v5/)
 * [Infura](https://infura.io/)
@@ -30,15 +30,68 @@ Deployed at: [ubademy-service-payments](https://ubademy-service-payments.herokua
 Directory structure (based on [Onion Architecture](https://jeffreypalermo.com/2008/07/the-onion-architecture-part-1/)):
 
 ```tree
-Yet to be written...
+├── contracts
+│   └── BasicPayments.sol
+├── deployments
+│   └── kovan
+├── src
+│   ├── handlers
+│   │   ├── createDepositHandler.js
+│   │   ├── createPaymentHandler.js
+│   │   ├── createWalletHandler.js
+│   │   ├── getTransactionHandler.js
+│   │   ├── getTransactionMetricsHandler.js
+│   │   ├── getTransactionsHandler.js
+│   │   ├── getUbademyWalletHandler.js
+│   │   └── getWalletHandler.js
+│   ├── infrastructure
+│   │   ├── transaction
+│   │   │   └── transactionDTO.js
+│   │   ├── wallet
+│   │   │   └── walletDTO.js
+│   │   └── database.js
+│   ├── models
+│   │   ├── metrics.js
+│   │   ├── transactions.js
+│   │   └── wallet.js
+│   ├── services
+│   │   ├── contractInteraction.js
+│   │   ├── metrics.js
+│   │   ├── services.js
+│   │   ├── transactions.js
+│   │   └── wallets.js
+│   ├── app.js
+│   ├── config.js
+│   ├── exceptions.js
+│   ├── routes.js
+│   └── server.js
+└── __tests__
 ```
 
 ## Installation
+
+### .env
+Make sure you add a .env file in the project's root directory.
+It should include the following variables:
+
+```
+MNEMONIC=your_mnemonic_separated_with_spaces
+INFURA_API_KEY=selfExplanatory
+COMMISSION=<payment-commission>
+MICROSERVICES=<microservices-dict>
+```
+
+* payment-commission: float between 0 and 1
+* microservices-dict: {<microservice-name>: <microservice-url>}
+
 
 ### Dependencies:
 * [npm](https://www.npmjs.com/) 6.14.15
 * [nvm](https://www.docker.com/) Use node v14.18.1
 * [Docker-Compose](https://docs.docker.com/compose/)
+
+
+
 
 Once you have installed these tools, npm will take care of the rest :relieved:
 
