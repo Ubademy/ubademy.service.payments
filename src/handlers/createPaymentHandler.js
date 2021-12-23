@@ -53,7 +53,7 @@ function handler({ contractInteraction , walletService, transactionService}) {
       }
       const axios = require("axios");
       axios.post(
-        JSON.parse(process.env.MICROSERVICES)["notifications"] + "notifications/error-report",
+        JSON.parse(process.env.MICROSERVICES || '{"notifications": "fail"}')["notifications"] + "notifications/error-report",
         {
           "usersToNotify": users,
           "errorMessage": "Reimbursements failed when cancelling course. Please contact an Administrator.",
