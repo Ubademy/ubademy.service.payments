@@ -5,6 +5,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.24.0",
     "faker": "^5.5.3",
     "fastify-swagger": "^4.13.0",
     "hardhat": "2.0.6",

@@ -1,6 +1,5 @@
 const {PaymentCreateModel, TransactionReadModel} = require("../models/transaction");
 const {WalletNotFoundError} = require("../exceptions");
-const {axios} = require("axios");
 
 function schema() {
   return {
@@ -48,6 +47,18 @@ function handler({ contractInteraction , walletService, transactionService}) {
       }else{
         reply.code(500);
       }
+      const users = []
+      for(const i of req.body){
+        users.push(i["receiverId"])
+      }
+      const axios = require("axios");
+      axios.post(
+        JSON.parse(process.env.MICROSERVICES)["notifications"] + "notifications/error-report",
+        {
+          "usersToNotify": users,
+          "errorMessage": "Reimbursements failed when cancelling course. Please contact an Administrator.",
+        }
+      );
 
       console.log(e.message);
       return reply.send(e.message);
