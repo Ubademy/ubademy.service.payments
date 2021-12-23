@@ -1,5 +1,5 @@
 # ubademy.service.payments
-[![codecov](https://codecov.io/gh/Ubademy/ubademy.service.courses/branch/master/graph/badge.svg?token=WOM0ZAP02J)](https://codecov.io/gh/Ubademy/ubademy.service.courses) [![Tests](https://github.com/Ubademy/ubademy.service.courses/actions/workflows/test.yml/badge.svg)](https://github.com/Ubademy/ubademy.service.courses/actions/workflows/test.yml) [![Linters](https://github.com/Ubademy/ubademy.service.courses/actions/workflows/linters.yml/badge.svg)](https://github.com/Ubademy/ubademy.service.courses/actions/workflows/linters.yml) [![Deploy](https://github.com/Ubademy/ubademy.service.courses/actions/workflows/deploy.yml/badge.svg)](https://github.com/Ubademy/ubademy.service.courses/actions/workflows/deploy.yml)
+[![Tests](https://github.com/Ubademy/ubademy.service.payments/actions/workflows/test.yml/badge.svg)](https://github.com/Ubademy/ubademy.service.payments/actions/workflows/test.yml) [![Deploy](https://github.com/Ubademy/ubademy.service.payments/actions/workflows/deploy.yml/badge.svg)](https://github.com/Ubademy/ubademy.service.payments/actions/workflows/deploy.yml)
 
 Payments microservice for [Ubademy](https://ubademy.github.io/)
 
@@ -82,7 +82,7 @@ MICROSERVICES=<microservices-dict>
 ```
 
 * payment-commission: float between 0 and 1
-* microservices-dict: {<microservice-name>: <microservice-url>}
+* microservices-dict: {microservice-name: microservice-url}
 
 
 ### Dependencies:
