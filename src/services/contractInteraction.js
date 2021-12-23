@@ -5,14 +5,12 @@ const getContract = (config, wallet) => {
   return new ethers.Contract(config.contractAddress, config.contractAbi, wallet);
 };
 
-const transactionError = (error) => {
-  const reasonsList = error.results && Object.values(error.results).map(o => o.reason);
-  const message = error instanceof Object && "message" in error ? error.message : JSON.stringify(error);
-  console.error("reasons List");
-  console.error(reasonsList);
-
-  console.error("message");
-  console.error(message);
+const handleReceipt = (receipt, type) => {
+  console.log("Transaction mined");
+  const firstEvent = receipt && receipt.events && receipt.events[0];
+  if (firstEvent && firstEvent.event == type+"Made") {
+    console.log(type + " created");
+  }
 }
 
 const deposit = ({ config }) => async (senderWallet, amountToSend) => {
@@ -20,18 +18,8 @@ const deposit = ({ config }) => async (senderWallet, amountToSend) => {
   const value = (await ethers.utils.parseEther(amountToSend)).toHexString();
   const tx = await basicPayments.deposit({value: value});
   tx.wait(1).then(
-    async receipt => {
-      console.log("Transaction mined");
-      const firstEvent = receipt && receipt.events && receipt.events[0];
-      console.log(firstEvent);
-      if (firstEvent && firstEvent.event == "DepositMade") {
-        console.log("Deposit created");
-        amount = ethers.utils.formatEther(firstEvent.args.amount);
-      } else {
-        console.error(`Deposit not created in tx ${tx.hash}`);
-      }
-    },
-    error => transactionError(error),
+    async receipt => handleReceipt(receipt, "Deposit"),
+    error => console.log(error),
   );
 
   if (tx["statusCode"] === 500) {
@@ -45,20 +33,9 @@ const pay = ({ config }) => async (receiverWallet, ubademyWallet, amountToSend) 
   const basicPayments = await getContract(config, ubademyWallet);
   const value = (await ethers.utils.parseEther(amountToSend)).toHexString();
   const tx = await basicPayments.sendPayment(receiverWallet.address, value);
-  let amount = -1;
   await tx.wait(1).then(
-    async receipt => {
-      console.log("Transaction mined");
-      const firstEvent = receipt && receipt.events && receipt.events[0];
-      console.log(receiverWallet.address);
-      if (firstEvent && firstEvent.event == "PaymentMade") {
-        console.log("Payment created");
-        amount = ethers.utils.formatEther(firstEvent.args.amount);
-      } else {
-        console.error(`Payment not created in tx ${tx.hash}`);
-      }
-    },
-    error => transactionError(error),
+    async receipt => handleReceipt(receipt, "Payment"),
+    error => console.log(error),
   );
 
   if (tx["statusCode"] === 500) {

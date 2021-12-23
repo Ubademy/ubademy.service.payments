@@ -31,7 +31,7 @@ function handler({ contractInteraction, walletService , transactionService}) {
         return reply.code(200).send({deposit: deposit, payment: null});
       }
 
-      const commission = process.env.COMMISSION;
+      const commission = process.env.COMMISSION || 0.85;
       const amountToPay = (parseFloat(req.body.amountInEthers)*commission).toString();
       console.log(amountToPay);
       const txPayment = await contractInteraction.pay(wReceiver, ubademyWallet, amountToPay);

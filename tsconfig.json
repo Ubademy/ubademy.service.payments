@@ -24,7 +24,7 @@
     "artifacts/**/*.json",
     "scripts/**/*",
     "tasks/**/*",
-    "test/**/*",
+    "__tests__/**/*",
     "deploy/**/*",
     "typechain/**/*",
     "types/**/*",
