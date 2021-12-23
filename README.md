@@ -76,7 +76,7 @@ Make sure you add a .env file in the project's root directory.
 It should include the following variables:
 
 ```
-MNEMONIC=your_mnemonic_separated_with_spaces
+MNEMONIC=your_mnemonic_separated_with_underscores
 INFURA_API_KEY=selfExplanatory
 COMMISSION=<payment-commission>
 MICROSERVICES=<microservices-dict>
